@@ -24,6 +24,19 @@ it('does recieveAttack work as intended', () => {
   testGameboard.receiveAttack('55');
   expect(testGameboard.ships[0].hits).toBe(1);
   expect(testGameboard.ships[1].hits).toBe(1);
-  expect(testGameboard.ships[1].isSunk()).toBeTruthy();
-  expect(testGameboard.missedAttacks).toContain('55');
+});
+
+it('does gameboard record missed atatcks', () => {
+  let testGameboard = new GameBoard([new Ship(2)]);
+  testGameboard.placeShip(testGameboard.ships[0], ['01', '02']);
+  testGameboard.receiveAttack('03');
+  expect(testGameboard.missedAttacks).toContain('03');
+});
+
+it('does allShipsSunk gameboard method work', () => {
+  let testGameboard = new GameBoard([new Ship(2)]);
+  testGameboard.placeShip(testGameboard.ships[0], ['01', '02']);
+  testGameboard.receiveAttack('01');
+  testGameboard.receiveAttack('02');
+  expect(testGameboard.allShipsSunk()).toBeTruthy();
 });
