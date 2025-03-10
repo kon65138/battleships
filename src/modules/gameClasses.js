@@ -13,3 +13,13 @@ export class Ship {
     if (this.hits >= this.length) return true;
   }
 }
+
+export class GameBoard {
+  constructor(ships) {
+    this.ships = ships;
+  }
+
+  placeShip(ship, coOrds) {
+    ship.coords = coOrds;
+  }
+}
