@@ -1,8 +1,8 @@
-export class ship {
+export class Ship {
   constructor(length) {
     this.length = length;
   }
-
+  coords = [];
   hits = 0;
 
   hit() {
