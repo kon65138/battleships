@@ -19,7 +19,19 @@ export class GameBoard {
     this.ships = ships;
   }
 
+  receivedAttacks = [];
+
   placeShip(ship, coOrds) {
     ship.coords = coOrds;
+  }
+
+  receiveAttack(coOrds) {
+    this.receivedAttacks.push(coOrds);
+    for (let i = 0; i < this.ships.length; i++) {
+      for (let j = 0; j < this.ships[i].coords.length; j++) {
+        if (JSON.stringify(coOrds) === JSON.stringify(this.ships[i].coords[j]))
+          this.ships[i].hit();
+      }
+    }
   }
 }
