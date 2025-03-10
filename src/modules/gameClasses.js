@@ -20,6 +20,7 @@ export class GameBoard {
   }
 
   receivedAttacks = [];
+  missedAttacks = [];
 
   placeShip(ship, coOrds) {
     ship.coords = coOrds;
@@ -27,11 +28,9 @@ export class GameBoard {
 
   receiveAttack(coOrds) {
     this.receivedAttacks.push(coOrds);
-    for (let i = 0; i < this.ships.length; i++) {
-      for (let j = 0; j < this.ships[i].coords.length; j++) {
-        if (JSON.stringify(coOrds) === JSON.stringify(this.ships[i].coords[j]))
-          this.ships[i].hit();
-      }
+    for (let ship of this.ships) {
+      if (ship.coords.includes(coOrds)) ship.hit();
     }
+    this.missedAttacks.push(coOrds);
   }
 }
