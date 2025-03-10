@@ -22,3 +22,18 @@ it('does gameboard placing ship coors work', () => {
     [0, 2],
   ]);
 });
+
+it('does recieveAttack work as intended', () => {
+  let testGameboard = new GameBoard([new Ship(3), new Ship(1)]);
+  testGameboard.placeShip(testGameboard.ships[0], [
+    [0, 1],
+    [0, 2],
+    [0, 3],
+  ]);
+  testGameboard.placeShip(testGameboard.ships[1], [[3, 4]]);
+  testGameboard.receiveAttack([3, 4]);
+  testGameboard.receiveAttack([0, 2]);
+  expect(testGameboard.ships[0].hits).toBe(1);
+  expect(testGameboard.ships[1].hits).toBe(1);
+  expect(testGameboard.ships[1].isSunk()).toBeTruthy();
+});
