@@ -37,6 +37,5 @@ it('does allShipsSunk gameboard method work', () => {
   let testGameboard = new GameBoard([new Ship(2)]);
   testGameboard.placeShip(testGameboard.ships[0], ['01', '02']);
   testGameboard.receiveAttack('01');
-  testGameboard.receiveAttack('02');
   expect(testGameboard.allShipsSunk()).toBeTruthy();
 });

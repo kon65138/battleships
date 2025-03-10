@@ -33,4 +33,10 @@ export class GameBoard {
     }
     this.missedAttacks.push(coOrds);
   }
+
+  allShipsSunk() {
+    for (let ship of this.ships) {
+      if (ship.isSunk()) return true;
+    }
+  }
 }
