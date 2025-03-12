@@ -1,4 +1,4 @@
-import { Ship, GameBoard } from './modules/gameClasses.js';
+import { Ship, GameBoard, Player } from './modules/gameClasses.js';
 
 it('does is sunk work', () => {
   let testShip = new Ship(5);
@@ -37,5 +37,13 @@ it('does allShipsSunk gameboard method work', () => {
   let testGameboard = new GameBoard([new Ship(2)]);
   testGameboard.placeShip(testGameboard.ships[0], ['01', '02']);
   testGameboard.receiveAttack('01');
+  testGameboard.receiveAttack('02');
   expect(testGameboard.allShipsSunk()).toBeTruthy();
+});
+
+it('does Player class function as expected', () => {
+  let playerOne = new Player('Mr.Blue Sky');
+  playerOne.gameboard.placeShip(playerOne.gameboard.ships[4], ['01', '02']);
+  playerOne.gameboard.receiveAttack('01');
+  expect(playerOne.gameboard.ships[4].isSunk()).toBeFalsy;
 });
