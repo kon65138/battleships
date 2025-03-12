@@ -32,8 +32,20 @@ class GameBoard {
   receivedAttacks = [];
   missedAttacks = [];
 
-  placeShip(ship, coOrds) {
-    ship.coords = coOrds;
+  placeShip(ship, coOrd, axis = 'x') {
+    if (axis === 'x') {
+      ship.coords.push(coOrd);
+      for (let i = 1; i < ship.length; i++) {
+        let tCoords = `${i + parseInt(coOrd.charAt(0))}${coOrd.charAt(1)}`;
+        ship.coords.push(tCoords);
+      }
+    } else if (axis === 'y') {
+      ship.coords.push(coOrd);
+      for (let i = 1; i < ship.length; i++) {
+        let tCoords = `${coOrd.charAt(0)}${i + parseInt(coOrd.charAt(1))}`;
+        ship.coords.push(tCoords);
+      }
+    }
   }
 
   receiveAttack(coOrds) {
