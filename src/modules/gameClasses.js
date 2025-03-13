@@ -21,7 +21,7 @@ class GameBoard {
     ships = [
       new Ship(5, 'Carrier'),
       new Ship(4, 'Battleship'),
-      new Ship(3, 'Destroyer'),
+      new Ship(3, 'Cruiser'),
       new Ship(3, 'Submarine'),
       new Ship(2, 'Destroyer'),
     ],

@@ -1,6 +1,6 @@
-function createGrid(divClass) {
+function createGrid(divClassName) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  const grid = document.querySelector(divClass);
+  const grid = document.querySelector(`.${divClassName}`);
   for (let i = 0; i < 10; i++) {
     let xAxisDiv = document.createElement('div');
     xAxisDiv.classList.add(`xGroup`);
@@ -10,10 +10,38 @@ function createGrid(divClass) {
       let square = document.createElement('button');
       square.textContent = `${alphabet.charAt(i)}${j}`;
       square.classList.add('square');
-      square.id = `${i}${j}`;
+      square.id = `${divClassName}${i}${j}`;
       xAxisDiv.appendChild(square);
     }
   }
 }
 
-export { createGrid };
+function renderShips(gameboard, divClassName) {
+  const grid = document.querySelector(`.${divClassName}`);
+  for (let ship of gameboard.ships) {
+    let color;
+    switch (ship.name) {
+      case 'Carrier':
+        color = 'red';
+        break;
+      case 'Battleship':
+        color = 'blue';
+        break;
+      case 'Cruiser':
+        color = 'green';
+        break;
+      case 'Submarine':
+        color = 'yellow';
+        break;
+      case 'Destroyer':
+        color = 'purple';
+        break;
+    }
+    for (let coord of ship.coords) {
+      let square = document.getElementById(`${divClassName}${coord}`);
+      square.style.backgroundColor = color;
+    }
+  }
+}
+
+export { createGrid, renderShips };
