@@ -7,11 +7,11 @@ import {
 } from './modules/domFunctions.js';
 
 function newGame() {
-  createGrid('computerGrid');
-  createGrid('playerGrid');
-
   const player = new Player('test player');
   const computer = new Player('bzz beep');
+
+  createGrid(computer.gameboard, 'computerGrid');
+  createGrid(player.gameboard, 'playerGrid');
 
   player.gameboard.placeShip(player.gameboard.ships[0], '00', 'y');
   player.gameboard.placeShip(player.gameboard.ships[1], '90', 'x');
@@ -25,13 +25,8 @@ function newGame() {
   computer.gameboard.placeShip(computer.gameboard.ships[3], '09', 'y');
   computer.gameboard.placeShip(computer.gameboard.ships[4], '67', 'x');
 
-  computer.gameboard.receiveAttack('29');
-  computer.gameboard.receiveAttack('55');
-  computer.gameboard.receiveAttack('10');
-
   renderShips(player.gameboard, 'playerGrid');
   renderShips(computer.gameboard, 'computerGrid');
-  renderShots(computer.gameboard, 'computerGrid');
 }
 
 newGame();

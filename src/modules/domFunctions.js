@@ -1,4 +1,4 @@
-function createGrid(divClassName) {
+function createGrid(gameboard, divClassName) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
   const grid = document.querySelector(`.${divClassName}`);
   for (let i = 0; i < 10; i++) {
@@ -12,6 +12,11 @@ function createGrid(divClassName) {
       square.classList.add('square');
       square.id = `${divClassName}${i}${j}`;
       xAxisDiv.appendChild(square);
+      square.addEventListener('click', () => {
+        if (gameboard.receivedAttacks.includes(`${i}${j}`)) return;
+        gameboard.receiveAttack(`${i}${j}`);
+        renderShots(gameboard, divClassName);
+      });
     }
   }
 }
@@ -46,6 +51,7 @@ function renderShips(gameboard, divClassName) {
 function renderShots(gameboard, divClassName) {
   for (let attack of gameboard.receivedAttacks) {
     let square = document.getElementById(`${divClassName}${attack}`);
+    if (square.children.length > 0) continue;
     let x = document.createElement('div');
     x.textContent = 'X';
     x.style = 'color: black; position: absolute;font-size: 1.5rem;';
