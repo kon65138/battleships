@@ -1,6 +1,10 @@
 import './style.css';
 import { Ship, GameBoard, Player } from './modules/gameClasses.js';
-import { createGrid, renderShips } from './modules/domFunctions.js';
+import {
+  createGrid,
+  renderShips,
+  renderShots,
+} from './modules/domFunctions.js';
 
 function newGame() {
   createGrid('computerGrid');
@@ -21,8 +25,13 @@ function newGame() {
   computer.gameboard.placeShip(computer.gameboard.ships[3], '09', 'y');
   computer.gameboard.placeShip(computer.gameboard.ships[4], '67', 'x');
 
+  computer.gameboard.receiveAttack('29');
+  computer.gameboard.receiveAttack('55');
+  computer.gameboard.receiveAttack('10');
+
   renderShips(player.gameboard, 'playerGrid');
   renderShips(computer.gameboard, 'computerGrid');
+  renderShots(computer.gameboard, 'computerGrid');
 }
 
 newGame();

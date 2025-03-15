@@ -73,7 +73,7 @@ body {
 }
 
 .square:hover {
-    background-color: #003fed;
+    filter: brightness(85%)
 }
 
 .controls {

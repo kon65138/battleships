@@ -17,7 +17,6 @@ function createGrid(divClassName) {
 }
 
 function renderShips(gameboard, divClassName) {
-  const grid = document.querySelector(`.${divClassName}`);
   for (let ship of gameboard.ships) {
     let color;
     switch (ship.name) {
@@ -44,4 +43,14 @@ function renderShips(gameboard, divClassName) {
   }
 }
 
-export { createGrid, renderShips };
+function renderShots(gameboard, divClassName) {
+  for (let attack of gameboard.receivedAttacks) {
+    let square = document.getElementById(`${divClassName}${attack}`);
+    let x = document.createElement('div');
+    x.textContent = 'X';
+    x.style = 'color: black; position: absolute;font-size: 1.5rem;';
+    square.appendChild(x);
+  }
+}
+
+export { createGrid, renderShips, renderShots };
