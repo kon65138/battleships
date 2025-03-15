@@ -9,8 +9,9 @@ import {
 function newGame() {
   const player = new Player('test player');
   const computer = new Player('bzz beep');
+  computer.gameboard.oppolentsTurn = true;
 
-  createGrid(computer.gameboard, 'computerGrid');
+  createGrid(computer.gameboard, 'computerGrid', player.gameboard);
   createGrid(player.gameboard, 'playerGrid');
 
   player.gameboard.placeShip(player.gameboard.ships[0], '00', 'y');

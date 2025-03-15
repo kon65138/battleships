@@ -49,11 +49,15 @@ class GameBoard {
   }
 
   receiveAttack(coOrds) {
+    if (this.oppolentsTurn === false) return false;
+    if (this.receivedAttacks.includes(coOrds)) return false;
     this.receivedAttacks.push(coOrds);
     for (let ship of this.ships) {
       if (ship.coords.includes(coOrds)) ship.hit();
     }
     this.missedAttacks.push(coOrds);
+    this.oppolentsTurn = false;
+    return true;
   }
 
   allShipsSunk() {
@@ -62,6 +66,8 @@ class GameBoard {
     }
     return false;
   }
+
+  oppolentsTurn = false;
 }
 
 class Player {

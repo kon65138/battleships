@@ -14,9 +14,9 @@ function createGrid(gameboard, divClassName) {
       xAxisDiv.appendChild(square);
       if (divClassName === 'computerGrid') {
         square.addEventListener('click', () => {
-          if (gameboard.receivedAttacks.includes(`${i}${j}`)) return;
-          gameboard.receiveAttack(`${i}${j}`);
-          renderShots(gameboard, divClassName);
+          if (gameboard.receiveAttack(`${i}${j}`)) {
+            renderShots(gameboard, divClassName);
+          }
         });
       }
     }
