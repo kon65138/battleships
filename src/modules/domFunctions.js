@@ -12,11 +12,13 @@ function createGrid(gameboard, divClassName) {
       square.classList.add('square');
       square.id = `${divClassName}${i}${j}`;
       xAxisDiv.appendChild(square);
-      square.addEventListener('click', () => {
-        if (gameboard.receivedAttacks.includes(`${i}${j}`)) return;
-        gameboard.receiveAttack(`${i}${j}`);
-        renderShots(gameboard, divClassName);
-      });
+      if (divClassName === 'computerGrid') {
+        square.addEventListener('click', () => {
+          if (gameboard.receivedAttacks.includes(`${i}${j}`)) return;
+          gameboard.receiveAttack(`${i}${j}`);
+          renderShots(gameboard, divClassName);
+        });
+      }
     }
   }
 }
