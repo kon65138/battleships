@@ -80,8 +80,14 @@ body {
     height: 30vh;
 }
 
-.hit {
+.missed {
     color: black;
     position: absolute;
     font-size: 1.5rem;
+}
+
+.hit {
+    color: white;
+    position: absolute;
+    font-size: 1.7rem;
 }

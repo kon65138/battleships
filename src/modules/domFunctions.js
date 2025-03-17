@@ -75,7 +75,11 @@ function renderShots(gameboard, divClassName) {
     if (square.children.length > 0) continue;
     let x = document.createElement('div');
     x.textContent = 'X';
-    x.classList.add('hit');
+    if (gameboard.hitRecievedAttacks.includes(attack)) {
+      x.classList.add('hit');
+    } else {
+      x.classList.add('missed');
+    }
     square.appendChild(x);
   }
 }
