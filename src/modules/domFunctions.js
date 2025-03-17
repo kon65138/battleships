@@ -1,5 +1,7 @@
 import { autoComputerAttack } from './computerPlayerLogic';
 
+const gameOutput = document.querySelector('.gameOutput');
+
 function createGrid(player, divClassName, oppolentPlayer) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
   const grid = document.querySelector(`.${divClassName}`);
@@ -16,28 +18,28 @@ function createGrid(player, divClassName, oppolentPlayer) {
       xAxisDiv.appendChild(square);
       if (divClassName === 'computerGrid') {
         square.addEventListener('click', () => {
-          console.log(player.gameboard.oppolentsTurn);
-          console.log(oppolentPlayer.gameboard.oppolentsTurn);
           if (oppolentPlayer.gameboard.sendAttack(`${i}${j}`)) {
             player.gameboard.receiveAttack(`${i}${j}`);
             renderShots(player.gameboard, divClassName);
-          }
-          console.log(player.gameboard.oppolentsTurn);
-          console.log(oppolentPlayer.gameboard.oppolentsTurn);
-          if (oppolentPlayer.gameboard.oppolentsTurn === true) {
-            if (player.gameboard.sendAttack(autoComputerAttack(player))) {
-              oppolentPlayer.gameboard.receiveAttack(
-                player.gameboard.sentAttacks[
-                  player.gameboard.sentAttacks.length - 1
-                ],
-              );
-              renderShots(oppolentPlayer.gameboard, 'playerGrid');
-            }
+            computerAttackSequence(player, oppolentPlayer);
           }
         });
       }
     }
   }
+}
+
+function computerAttackSequence(player, oppolentPlayer) {
+  let computerThinkingTime = Math.floor(Math.random() * 3);
+  gameOutput.textContent = 'computers turn';
+  setTimeout(() => {
+    player.gameboard.sendAttack(autoComputerAttack(player));
+    oppolentPlayer.gameboard.receiveAttack(
+      player.gameboard.sentAttacks[player.gameboard.sentAttacks.length - 1],
+    );
+    renderShots(oppolentPlayer.gameboard, 'playerGrid');
+    gameOutput.textContent = 'players turn';
+  }, computerThinkingTime * 1000);
 }
 
 function renderShips(gameboard, divClassName) {
