@@ -53,10 +53,8 @@ class GameBoard {
     }
   }
   sendAttack(coOrds) {
-    if (this.oppolentsTurn === true) return false;
     if (this.sentAttacks.includes(coOrds)) return false;
     this.sentAttacks.push(coOrds);
-    this.oppolentsTurn = true;
     return true;
   }
 
@@ -66,26 +64,22 @@ class GameBoard {
       if (ship.coords.includes(coOrds)) {
         ship.hit();
         this.hitRecievedAttacks.push(coOrds);
-        this.oppolentsTurn = false;
 
         if (this.isComputer === true) this.autoComputerAttack();
         return true;
       }
     }
     this.missedRecievedAttacks.push(coOrds);
-    this.oppolentsTurn = false;
     if (this.isComputer === true) this.autoComputerAttack();
     return false;
   }
 
   allShipsSunk() {
     for (let ship of this.ships) {
-      if (ship.isSunk()) return true;
+      if (!ship.isSunk()) return false;
     }
-    return false;
+    return true;
   }
-
-  oppolentsTurn = false;
 }
 
 class Player {

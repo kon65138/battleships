@@ -18,10 +18,25 @@ function createGrid(player, divClassName, oppolentPlayer) {
       xAxisDiv.appendChild(square);
       if (divClassName === 'computerGrid') {
         square.addEventListener('click', () => {
+          if (gameOutput.textContent === 'computers turn') return;
+          if (
+            gameOutput.textContent === 'Player Wins!!!' ||
+            gameOutput.textContent === 'Player Loses.'
+          ) {
+            return;
+          }
           if (oppolentPlayer.gameboard.sendAttack(`${i}${j}`)) {
             player.gameboard.receiveAttack(`${i}${j}`);
             renderShots(player.gameboard, divClassName);
+            if (player.gameboard.allShipsSunk()) {
+              gameOutput.textContent = 'Player Wins!!!';
+              return;
+            }
             computerAttackSequence(player, oppolentPlayer);
+            if (oppolentPlayer.gameboard.allShipsSunk()) {
+              gameOutput.textContent = 'Player Loses.';
+              return;
+            }
           }
         });
       }
