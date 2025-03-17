@@ -1,4 +1,7 @@
-import { autoComputerAttack } from './computerPlayerLogic';
+import {
+  autoComputerAttack,
+  computerAttackSequence,
+} from './computerPlayerLogic';
 
 const gameOutput = document.querySelector('.gameOutput');
 
@@ -32,7 +35,7 @@ function createGrid(player, divClassName, oppolentPlayer) {
               gameOutput.textContent = 'Player Wins!!!';
               return;
             }
-            computerAttackSequence(player, oppolentPlayer);
+            computerAttackSequence(player, oppolentPlayer, renderShots);
             if (oppolentPlayer.gameboard.allShipsSunk()) {
               gameOutput.textContent = 'Player Loses.';
               return;
@@ -44,42 +47,11 @@ function createGrid(player, divClassName, oppolentPlayer) {
   }
 }
 
-function computerAttackSequence(player, oppolentPlayer) {
-  let computerThinkingTime = Math.floor(Math.random() * 3);
-  gameOutput.textContent = 'computers turn';
-  setTimeout(() => {
-    player.gameboard.sendAttack(autoComputerAttack(player));
-    oppolentPlayer.gameboard.receiveAttack(
-      player.gameboard.sentAttacks[player.gameboard.sentAttacks.length - 1],
-    );
-    renderShots(oppolentPlayer.gameboard, 'playerGrid');
-    gameOutput.textContent = 'players turn';
-  }, computerThinkingTime * 1000);
-}
-
 function renderShips(gameboard, divClassName) {
   for (let ship of gameboard.ships) {
-    let color;
-    switch (ship.name) {
-      case 'Carrier':
-        color = 'red';
-        break;
-      case 'Battleship':
-        color = 'blue';
-        break;
-      case 'Cruiser':
-        color = 'green';
-        break;
-      case 'Submarine':
-        color = 'yellow';
-        break;
-      case 'Destroyer':
-        color = 'purple';
-        break;
-    }
     for (let coord of ship.coords) {
       let square = document.getElementById(`${divClassName}${coord}`);
-      square.style.backgroundColor = color;
+      square.style.backgroundColor = ship.color;
     }
   }
 }
@@ -98,5 +70,7 @@ function renderShots(gameboard, divClassName) {
     square.appendChild(x);
   }
 }
+
+function shipVisualize(ship, rotation) {}
 
 export { createGrid, renderShips, renderShots };

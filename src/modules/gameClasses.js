@@ -1,7 +1,8 @@
 class Ship {
-  constructor(length, name) {
+  constructor(length, name, color) {
     this.length = length;
     this.name = name;
+    this.color = color;
   }
   coords = [];
   hits = 0;
@@ -19,11 +20,11 @@ class Ship {
 class GameBoard {
   constructor(
     ships = [
-      new Ship(5, 'Carrier'),
-      new Ship(4, 'Battleship'),
-      new Ship(3, 'Cruiser'),
-      new Ship(3, 'Submarine'),
-      new Ship(2, 'Destroyer'),
+      new Ship(5, 'Carrier', 'red'),
+      new Ship(4, 'Battleship', 'blue'),
+      new Ship(3, 'Cruiser', 'green'),
+      new Ship(3, 'Submarine', 'yellow'),
+      new Ship(2, 'Destroyer', 'purple'),
     ],
     isComputer,
   ) {
