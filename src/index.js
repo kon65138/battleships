@@ -5,14 +5,15 @@ import {
   renderShips,
   renderShots,
 } from './modules/domFunctions.js';
+import { autoComputerAttack } from './modules/computerPlayerLogic.js';
 
 function newGame() {
   const player = new Player('test player');
   const computer = new Player('bzz beep', true);
   computer.gameboard.oppolentsTurn = true;
 
-  createGrid(computer.gameboard, 'computerGrid', player.gameboard);
-  createGrid(player.gameboard, 'playerGrid');
+  createGrid(computer, 'computerGrid', player);
+  createGrid(player, 'playerGrid', computer);
 
   player.gameboard.placeShip(player.gameboard.ships[0], '00', 'y');
   player.gameboard.placeShip(player.gameboard.ships[1], '90', 'x');
@@ -27,7 +28,6 @@ function newGame() {
   computer.gameboard.placeShip(computer.gameboard.ships[4], '67', 'x');
 
   renderShips(player.gameboard, 'playerGrid');
-  renderShips(computer.gameboard, 'computerGrid');
 }
 
 newGame();

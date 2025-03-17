@@ -78,13 +78,6 @@ class GameBoard {
     return false;
   }
 
-  autoComputerAttack() {
-    let coord = '';
-    coord += Math.floor(Math.random() * 9);
-    coord += Math.floor(Math.random() * 9);
-    return coord;
-  }
-
   allShipsSunk() {
     for (let ship of this.ships) {
       if (ship.isSunk()) return true;

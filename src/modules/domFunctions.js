@@ -1,4 +1,6 @@
-function createGrid(gameboard, divClassName, oppolentsGameboard) {
+import { autoComputerAttack } from './computerPlayerLogic';
+
+function createGrid(player, divClassName, oppolentPlayer) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
   const grid = document.querySelector(`.${divClassName}`);
   for (let i = 0; i < 10; i++) {
@@ -14,9 +16,23 @@ function createGrid(gameboard, divClassName, oppolentsGameboard) {
       xAxisDiv.appendChild(square);
       if (divClassName === 'computerGrid') {
         square.addEventListener('click', () => {
-          if (oppolentsGameboard.sendAttack(`${i}${j}`)) {
-            gameboard.receiveAttack(`${i}${j}`);
-            renderShots(gameboard, divClassName);
+          console.log(player.gameboard.oppolentsTurn);
+          console.log(oppolentPlayer.gameboard.oppolentsTurn);
+          if (oppolentPlayer.gameboard.sendAttack(`${i}${j}`)) {
+            player.gameboard.receiveAttack(`${i}${j}`);
+            renderShots(player.gameboard, divClassName);
+          }
+          console.log(player.gameboard.oppolentsTurn);
+          console.log(oppolentPlayer.gameboard.oppolentsTurn);
+          if (oppolentPlayer.gameboard.oppolentsTurn === true) {
+            if (player.gameboard.sendAttack(autoComputerAttack(player))) {
+              oppolentPlayer.gameboard.receiveAttack(
+                player.gameboard.sentAttacks[
+                  player.gameboard.sentAttacks.length - 1
+                ],
+              );
+              renderShots(oppolentPlayer.gameboard, 'playerGrid');
+            }
           }
         });
       }
