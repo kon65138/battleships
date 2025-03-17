@@ -8,7 +8,7 @@ import {
 
 function newGame() {
   const player = new Player('test player');
-  const computer = new Player('bzz beep');
+  const computer = new Player('bzz beep', true);
   computer.gameboard.oppolentsTurn = true;
 
   createGrid(computer.gameboard, 'computerGrid', player.gameboard);

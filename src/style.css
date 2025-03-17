@@ -79,3 +79,9 @@ body {
 .controls {
     height: 30vh;
 }
+
+.hit {
+    color: black;
+    position: absolute;
+    font-size: 1.5rem;
+}

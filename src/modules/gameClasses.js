@@ -25,12 +25,17 @@ class GameBoard {
       new Ship(3, 'Submarine'),
       new Ship(2, 'Destroyer'),
     ],
+    isComputer,
   ) {
     this.ships = ships;
+    this.isComputer = isComputer;
   }
 
   receivedAttacks = [];
-  missedAttacks = [];
+  missedRecievedAttacks = [];
+  hitRecievedAttacks = [];
+  sentAttacks = [];
+  oppolentsGameboard;
 
   placeShip(ship, coOrd, axis = 'x') {
     if (axis === 'y') {
@@ -47,17 +52,37 @@ class GameBoard {
       }
     }
   }
+  sendAttack(coOrds) {
+    if (this.oppolentsTurn === true) return false;
+    if (this.sentAttacks.includes(coOrds)) return false;
+    this.sentAttacks.push(coOrds);
+    this.oppolentsTurn = true;
+    return true;
+  }
 
   receiveAttack(coOrds) {
-    if (this.oppolentsTurn === false) return false;
-    if (this.receivedAttacks.includes(coOrds)) return false;
     this.receivedAttacks.push(coOrds);
     for (let ship of this.ships) {
-      if (ship.coords.includes(coOrds)) ship.hit();
+      if (ship.coords.includes(coOrds)) {
+        ship.hit();
+        this.hitRecievedAttacks.push(coOrds);
+        this.oppolentsTurn = false;
+
+        if (this.isComputer === true) this.autoComputerAttack();
+        return true;
+      }
     }
-    this.missedAttacks.push(coOrds);
+    this.missedRecievedAttacks.push(coOrds);
     this.oppolentsTurn = false;
-    return true;
+    if (this.isComputer === true) this.autoComputerAttack();
+    return false;
+  }
+
+  autoComputerAttack() {
+    let coord = '';
+    coord += Math.floor(Math.random() * 9);
+    coord += Math.floor(Math.random() * 9);
+    return coord;
   }
 
   allShipsSunk() {

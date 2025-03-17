@@ -1,4 +1,4 @@
-function createGrid(gameboard, divClassName) {
+function createGrid(gameboard, divClassName, oppolentsGameboard) {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
   const grid = document.querySelector(`.${divClassName}`);
   for (let i = 0; i < 10; i++) {
@@ -14,7 +14,8 @@ function createGrid(gameboard, divClassName) {
       xAxisDiv.appendChild(square);
       if (divClassName === 'computerGrid') {
         square.addEventListener('click', () => {
-          if (gameboard.receiveAttack(`${i}${j}`)) {
+          if (oppolentsGameboard.sendAttack(`${i}${j}`)) {
+            gameboard.receiveAttack(`${i}${j}`);
             renderShots(gameboard, divClassName);
           }
         });
@@ -56,7 +57,7 @@ function renderShots(gameboard, divClassName) {
     if (square.children.length > 0) continue;
     let x = document.createElement('div');
     x.textContent = 'X';
-    x.style = 'color: black; position: absolute;font-size: 1.5rem;';
+    x.classList.add('hit');
     square.appendChild(x);
   }
 }
