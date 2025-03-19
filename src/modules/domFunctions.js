@@ -21,7 +21,7 @@ function createGrid(player, divClassName, oppolentPlayer) {
       xAxisDiv.appendChild(square);
       if (divClassName === 'computerGrid') {
         square.addEventListener('click', () => {
-          if (gameOutput.textContent === 'computers turn') return;
+          if (gameOutput.textContent !== 'players turn') return;
           if (
             gameOutput.textContent === 'Player Wins!!!' ||
             gameOutput.textContent === 'Player Loses.'
@@ -71,6 +71,108 @@ function renderShots(gameboard, divClassName) {
   }
 }
 
-function shipVisualize(ship, rotation) {}
+function recPlaceShips(ships, gameboard) {
+  if (ships.length < 1) return;
+  let tempShipsArr = ships.slice();
+  const grid = document.querySelector('.playerGrid');
+  gameOutput.textContent = `click a position on the player grid to place your ${ships[0].length} square long ${ships[0].name} vertically extending down from the position. press r to cycle horizontal/vertical`;
+  let choice = '';
+  let rotation = '';
+  function onRFunction(event) {
+    if (event.key === 'r') {
+      if (gameOutput.textContent === 'not enough room to place ship') return;
+      if (gameOutput.textContent.includes('down')) {
+        gameOutput.textContent = `click a position on the player grid to place your ${ships[0].length} square long ${ships[0].name} horizontally extending right from the position. press r to cycle horizontal/vertical`;
+      } else {
+        gameOutput.textContent = `click a position on the player grid to place your ${ships[0].length} square long ${ships[0].name} vertically extending down from the position. press r to cycle horizontal/vertical`;
+      }
+    }
+  }
+  document.addEventListener('keypress', onRFunction);
+  function eventListener(event) {
+    let cssObj = window.getComputedStyle(event.currentTarget, null);
+    if (cssObj.getPropertyValue('background-color') !== 'rgb(0, 105, 237)') {
+      return;
+    }
+    function recCollisionCheck(coord, ship, num = 0) {
+      if (num === ship.length - 1) return false;
+      let tempArr = coord.split('');
+      if (gameOutput.textContent.includes('down')) {
+        tempArr[1] = parseInt(tempArr[1]) + 1;
+        let curCssObj = window.getComputedStyle(
+          document.getElementById(`playerGrid${tempArr.join('')}`),
+          null,
+        );
+        if (
+          curCssObj.getPropertyValue('background-color') !== 'rgb(0, 105, 237)'
+        ) {
+          return true;
+        }
+      } else {
+        tempArr[0] = parseInt(tempArr[0]) + 1;
+        let curCssObj = window.getComputedStyle(
+          document.getElementById(`playerGrid${tempArr.join('')}`),
+          null,
+        );
+        if (
+          curCssObj.getPropertyValue('background-color') !== 'rgb(0, 105, 237)'
+        ) {
+          return true;
+        }
+      }
+      recCollisionCheck(tempArr.join(''), ship, num + 1);
+    }
 
-export { createGrid, renderShips, renderShots };
+    choice = event.currentTarget.id.slice(10, 12);
+    if (recCollisionCheck(choice, ships[0])) {
+      let temp = gameOutput.textContent;
+      gameOutput.textContent = 'not enough room to place ship';
+      setTimeout(() => {
+        gameOutput.textContent = temp;
+      }, 1000);
+      return;
+    }
+    if (gameOutput.textContent.includes('down')) {
+      rotation = 'x';
+      if (ships[0].length + parseInt(choice.slice(1, 2)) > 10) {
+        let temp = gameOutput.textContent;
+        gameOutput.textContent = 'not enough room to place ship';
+        setTimeout(() => {
+          gameOutput.textContent = temp;
+        }, 1000);
+        return;
+      }
+    } else {
+      rotation = 'y';
+      if (ships[0].length + parseInt(choice.slice(0, 1)) > 10) {
+        let temp = gameOutput.textContent;
+        gameOutput.textContent = 'not enough room to place ship';
+        setTimeout(() => {
+          gameOutput.textContent = temp;
+        }, 1000);
+        return;
+      }
+    }
+    gameboard.placeShip(ships[0], choice, rotation);
+    renderShips(gameboard, 'playerGrid');
+    removeEventLisners();
+    tempShipsArr.shift();
+    recPlaceShips(tempShipsArr, gameboard);
+  }
+  for (let gridLine of grid.children) {
+    for (let square of gridLine.children) {
+      square.addEventListener('click', eventListener);
+    }
+  }
+  function removeEventLisners() {
+    document.removeEventListener('keypress', onRFunction);
+    for (let gridLine of grid.children) {
+      for (let square of gridLine.children) {
+        square.removeEventListener('click', eventListener);
+      }
+    }
+    gameOutput.textContent = 'players turn';
+  }
+}
+
+export { createGrid, renderShips, renderShots, recPlaceShips };

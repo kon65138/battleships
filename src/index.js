@@ -2,6 +2,7 @@ import './style.css';
 import { Ship, GameBoard, Player } from './modules/gameClasses.js';
 import {
   createGrid,
+  recPlaceShips,
   renderShips,
   renderShots,
 } from './modules/domFunctions.js';
@@ -15,11 +16,7 @@ function newGame() {
   createGrid(computer, 'computerGrid', player);
   createGrid(player, 'playerGrid', computer);
 
-  player.gameboard.placeShip(player.gameboard.ships[0], '00', 'y');
-  player.gameboard.placeShip(player.gameboard.ships[1], '90', 'x');
-  player.gameboard.placeShip(player.gameboard.ships[2], '41', 'x');
-  player.gameboard.placeShip(player.gameboard.ships[3], '09', 'y');
-  player.gameboard.placeShip(player.gameboard.ships[4], '67', 'x');
+  recPlaceShips(player.gameboard.ships, player.gameboard);
 
   computer.gameboard.placeShip(computer.gameboard.ships[0], '00', 'y');
   computer.gameboard.placeShip(computer.gameboard.ships[1], '90', 'x');
