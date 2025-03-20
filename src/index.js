@@ -6,7 +6,10 @@ import {
   renderShips,
   renderShots,
 } from './modules/domFunctions.js';
-import { autoComputerAttack } from './modules/computerPlayerLogic.js';
+import {
+  autoComputerAttack,
+  computerRandShipPlace,
+} from './modules/computerPlayerLogic.js';
 
 function newGame() {
   const player = new Player('test player');
@@ -17,14 +20,10 @@ function newGame() {
   createGrid(player, 'playerGrid', computer);
 
   recPlaceShips(player.gameboard.ships, player.gameboard);
-
-  computer.gameboard.placeShip(computer.gameboard.ships[0], '00', 'y');
-  computer.gameboard.placeShip(computer.gameboard.ships[1], '90', 'x');
-  computer.gameboard.placeShip(computer.gameboard.ships[2], '41', 'x');
-  computer.gameboard.placeShip(computer.gameboard.ships[3], '09', 'y');
-  computer.gameboard.placeShip(computer.gameboard.ships[4], '67', 'x');
+  computerRandShipPlace(computer.gameboard.ships, computer.gameboard);
 
   renderShips(player.gameboard, 'playerGrid');
+  renderShips(computer.gameboard, 'computerGrid');
 }
 
 newGame();
