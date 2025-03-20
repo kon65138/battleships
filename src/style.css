@@ -91,3 +91,7 @@ body {
     position: absolute;
     font-size: 1.7rem;
 }
+
+.gameOutput {
+    height: 2rem;
+}

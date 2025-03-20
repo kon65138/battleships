@@ -90,62 +90,33 @@ function recPlaceShips(ships, gameboard) {
   }
   document.addEventListener('keypress', onRFunction);
   function eventListener(event) {
-    let cssObj = window.getComputedStyle(event.currentTarget, null);
-    if (cssObj.getPropertyValue('background-color') !== 'rgb(0, 105, 237)') {
-      return;
+    if (!gameOutput.textContent.includes('click')) return;
+    let axis;
+    if (gameOutput.textContent.includes('down')) {
+      axis = 'x';
+    } else {
+      axis = 'y';
     }
-    function recCollisionCheck(coord, ship, num = 0) {
-      if (num === ship.length - 1) return false;
+    function recCollisionCheck(coord, ship, axis, num = 0) {
+      if (num === ship.length) return false;
       let tempArr = coord.split('');
-      if (gameOutput.textContent.includes('down')) {
+      if (coord.length > 2) return true;
+      if (axis === 'x') {
         tempArr[1] = parseInt(tempArr[1]) + 1;
-        let curCssObj = window.getComputedStyle(
-          document.getElementById(`playerGrid${tempArr.join('')}`),
-          null,
-        );
-        if (
-          curCssObj.getPropertyValue('background-color') !== 'rgb(0, 105, 237)'
-        ) {
-          return true;
-        }
       } else {
         tempArr[0] = parseInt(tempArr[0]) + 1;
-        let curCssObj = window.getComputedStyle(
-          document.getElementById(`playerGrid${tempArr.join('')}`),
-          null,
-        );
-        if (
-          curCssObj.getPropertyValue('background-color') !== 'rgb(0, 105, 237)'
-        ) {
-          return true;
+      }
+      for (let curShip of gameboard.placedShips) {
+        for (let pos of curShip.coords) {
+          if (pos === coord) return true;
         }
       }
-      recCollisionCheck(tempArr.join(''), ship, num + 1);
+      return recCollisionCheck(tempArr.join(''), ship, axis, num + 1);
     }
 
     choice = event.currentTarget.id.slice(10, 12);
-    if (gameOutput.textContent.includes('down')) {
-      rotation = 'x';
-      if (ships[0].length + parseInt(choice.slice(1, 2)) > 10) {
-        let temp = gameOutput.textContent;
-        gameOutput.textContent = 'not enough room to place ship';
-        setTimeout(() => {
-          gameOutput.textContent = temp;
-        }, 1000);
-        return;
-      }
-    } else {
-      rotation = 'y';
-      if (ships[0].length + parseInt(choice.slice(0, 1)) > 10) {
-        let temp = gameOutput.textContent;
-        gameOutput.textContent = 'not enough room to place ship';
-        setTimeout(() => {
-          gameOutput.textContent = temp;
-        }, 1000);
-        return;
-      }
-    }
-    if (recCollisionCheck(choice, ships[0])) {
+
+    if (recCollisionCheck(choice, ships[0], axis)) {
       let temp = gameOutput.textContent;
       gameOutput.textContent = 'not enough room to place ship';
       setTimeout(() => {
@@ -153,11 +124,12 @@ function recPlaceShips(ships, gameboard) {
       }, 1000);
       return;
     }
-    gameboard.placeShip(ships[0], choice, rotation);
+
+    gameboard.placeShip(ships[0], choice, axis);
     renderShips(gameboard, 'playerGrid');
     removeEventLisners();
     tempShipsArr.shift();
-    recPlaceShips(tempShipsArr, gameboard);
+    return recPlaceShips(tempShipsArr, gameboard);
   }
   for (let gridLine of grid.children) {
     for (let square of gridLine.children) {
