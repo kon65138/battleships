@@ -124,14 +124,6 @@ function recPlaceShips(ships, gameboard) {
     }
 
     choice = event.currentTarget.id.slice(10, 12);
-    if (recCollisionCheck(choice, ships[0])) {
-      let temp = gameOutput.textContent;
-      gameOutput.textContent = 'not enough room to place ship';
-      setTimeout(() => {
-        gameOutput.textContent = temp;
-      }, 1000);
-      return;
-    }
     if (gameOutput.textContent.includes('down')) {
       rotation = 'x';
       if (ships[0].length + parseInt(choice.slice(1, 2)) > 10) {
@@ -152,6 +144,14 @@ function recPlaceShips(ships, gameboard) {
         }, 1000);
         return;
       }
+    }
+    if (recCollisionCheck(choice, ships[0])) {
+      let temp = gameOutput.textContent;
+      gameOutput.textContent = 'not enough room to place ship';
+      setTimeout(() => {
+        gameOutput.textContent = temp;
+      }, 1000);
+      return;
     }
     gameboard.placeShip(ships[0], choice, rotation);
     renderShips(gameboard, 'playerGrid');
