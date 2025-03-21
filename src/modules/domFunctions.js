@@ -1,7 +1,4 @@
-import {
-  autoComputerAttack,
-  computerAttackSequence,
-} from './computerPlayerLogic';
+import { computerAttackSequence } from './computerPlayerLogic';
 
 const gameOutput = document.querySelector('.gameOutput');
 
@@ -77,7 +74,6 @@ function recPlaceShips(ships, gameboard) {
   const grid = document.querySelector('.playerGrid');
   gameOutput.textContent = `click a position on the player grid to place your ${ships[0].length} square long ${ships[0].name} vertically extending down from the position. press r to cycle horizontal/vertical`;
   let choice = '';
-  let rotation = '';
   function onRFunction(event) {
     if (event.key === 'r') {
       if (gameOutput.textContent === 'not enough room to place ship') return;

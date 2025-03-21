@@ -8,10 +8,6 @@ import {
 import { computerRandShipPlace } from './modules/computerPlayerLogic.js';
 
 function newGame() {
-  const grids = document.querySelectorAll('.grids > div');
-  for (let grid of grids) {
-    grid.innerHTML = '';
-  }
   const player = new Player('test player');
   const computer = new Player('bzz beep', true);
   computer.gameboard.oppolentsTurn = true;
@@ -23,13 +19,11 @@ function newGame() {
   computerRandShipPlace(computer.gameboard.ships, computer.gameboard);
 
   renderShips(player.gameboard, 'playerGrid');
-  renderShips(computer.gameboard, 'computerGrid');
 }
 
 const startGameBtn = document.getElementById('StartNewGame');
-startGameBtn.addEventListener('click', (event) => {
-  event.preventDefault();
-  newGame();
+startGameBtn.addEventListener('click', () => {
+  location.reload();
 });
 
 newGame();
